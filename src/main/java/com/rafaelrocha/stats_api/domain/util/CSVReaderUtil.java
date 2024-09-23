@@ -12,21 +12,27 @@ import java.util.List;
 
 @Component
 public class CSVReaderUtil {
-    
+
     private static final String CSV_FILE_PATH = "src/main/resources/NBA_2024_per_game.csv";
-    
+
     public List<PlayerDTO> readPlayersFromCSV() {
         List<PlayerDTO> playerDTOS = new ArrayList<>();
-        
-        try(CSVReader reader = new CSVReader(new FileReader(CSV_FILE_PATH))) {
+
+        try (CSVReader reader = new CSVReader(new FileReader(CSV_FILE_PATH))) {
             List<String[]> records = reader.readAll();
-            
-            for(int i = 1; i < records.size(); i++) {
+
+            for (int i = 1; i < records.size(); i++) {
                 String[] infos = records.get(i);
+                if (infos.length < 10) {
+                    continue;
+                }
 
-                PlayerDTO playerDTO = getPlayer(infos);
-
-                playerDTOS.add(playerDTO);
+                try {
+                    PlayerDTO playerDTO = getPlayer(infos);
+                    playerDTOS.add(playerDTO);
+                } catch (NumberFormatException e) {
+                    System.err.println("Erro ao converter dados para o jogador: " + infos[1]);
+                }
             }
 
         } catch (IOException | CsvException e) {
@@ -37,15 +43,15 @@ public class CSVReaderUtil {
 
     private static PlayerDTO getPlayer(String[] infos) {
         PlayerDTO playerDTO = new PlayerDTO();
-        playerDTO.setName(infos[1]);
-        playerDTO.setTeam(infos[2]);
-        playerDTO.setPosition(infos[3]);
-        playerDTO.setAge(Integer.parseInt(infos[4]));
-        playerDTO.setPointsPerGame(Double.parseDouble(infos[5]));
-        playerDTO.setAssistsPerGame(Double.parseDouble(infos[6]));
-        playerDTO.setReboundsPerGame(Double.parseDouble(infos[7]));
-        playerDTO.setFieldGoalPercentage(Double.parseDouble(infos[8]));
-        playerDTO.setThreePointPercentage(Double.parseDouble(infos[9]));
+        playerDTO.setName(infos[0]);
+        playerDTO.setTeam(infos[3]);
+        playerDTO.setPosition(infos[1]);
+        playerDTO.setAge(Integer.parseInt(infos[2]));
+        playerDTO.setPointsPerGame(Double.parseDouble(infos[28]));
+        playerDTO.setAssistsPerGame(Double.parseDouble(infos[22]));
+        playerDTO.setReboundsPerGame(Double.parseDouble(infos[21]));
+        playerDTO.setFieldGoalPercentage(Double.parseDouble(infos[9]));
+        playerDTO.setThreePointPercentage(Double.parseDouble(infos[12]));
         return playerDTO;
     }
 }
