@@ -1,6 +1,7 @@
 package com.rafaelrocha.stats_api.domain.impl;
 
 import com.rafaelrocha.stats_api.domain.dto.PlayerDTO;
+import com.rafaelrocha.stats_api.domain.exceptions.PlayerNotFoundException;
 import com.rafaelrocha.stats_api.domain.service.PlayerService;
 import com.rafaelrocha.stats_api.domain.util.CSVReaderUtil;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class PlayerServiceImpl implements PlayerService {
     public PlayerDTO getPlayerByName(String name) {
         List<PlayerDTO> players = csvReaderUtil.readPlayersFromCSV();
         return players.stream()
-                .filter(player -> player.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+                .filter(player -> player.getName().equalsIgnoreCase(name)).findFirst().orElseThrow(PlayerNotFoundException::new);
     }
 
     @Override
