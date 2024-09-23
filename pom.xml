@@ -12,7 +12,7 @@
 	<artifactId>stats-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>stats-api</name>
-	<description>API for NBA players visualization.</description>
+	<description>API for NBA playerDTOS visualization.</description>
 	<url/>
 	<licenses>
 		<license/>
