@@ -11,6 +11,6 @@ public class Player {
     private double pointsPerGame;
     private double assistsPerGame;
     private double reboundsPerGame;
-    private double fieldGoalPercentage;
-    private double threePointPercentage;
+    private float fieldGoalPercentage;
+    private float threePointPercentage;
 }

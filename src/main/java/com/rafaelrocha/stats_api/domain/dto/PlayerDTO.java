@@ -16,7 +16,7 @@ public class PlayerDTO {
     @JsonProperty("RPG")
     private double reboundsPerGame;
     @JsonProperty("FG%")
-    private double fieldGoalPercentage;
+    private float fieldGoalPercentage;
     @JsonProperty("3P%")
-    private double threePointPercentage;
+    private float threePointPercentage;
 }

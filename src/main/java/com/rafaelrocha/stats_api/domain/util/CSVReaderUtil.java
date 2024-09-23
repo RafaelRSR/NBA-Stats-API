@@ -23,16 +23,9 @@ public class CSVReaderUtil {
 
             for (int i = 1; i < records.size(); i++) {
                 String[] infos = records.get(i);
-                if (infos.length < 10) {
-                    continue;
-                }
 
-                try {
-                    PlayerDTO playerDTO = getPlayer(infos);
-                    playerDTOS.add(playerDTO);
-                } catch (NumberFormatException e) {
-                    System.err.println("Erro ao converter dados para o jogador: " + infos[1]);
-                }
+                PlayerDTO playerDTO = getPlayer(infos);
+                playerDTOS.add(playerDTO);
             }
 
         } catch (IOException | CsvException e) {
@@ -44,14 +37,45 @@ public class CSVReaderUtil {
     private static PlayerDTO getPlayer(String[] infos) {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setName(infos[0]);
-        playerDTO.setTeam(infos[3]);
         playerDTO.setPosition(infos[1]);
-        playerDTO.setAge(Integer.parseInt(infos[2]));
-        playerDTO.setPointsPerGame(Double.parseDouble(infos[28]));
-        playerDTO.setAssistsPerGame(Double.parseDouble(infos[22]));
-        playerDTO.setReboundsPerGame(Double.parseDouble(infos[21]));
-        playerDTO.setFieldGoalPercentage(Double.parseDouble(infos[9]));
-        playerDTO.setThreePointPercentage(Double.parseDouble(infos[12]));
+        playerDTO.setTeam(infos[3]);
+
+        playerDTO.setAge(parseInteger(infos[2])); // Ajusta a idade
+        playerDTO.setPointsPerGame(parseDouble(infos[28])); // Ajusta pontos por jogo
+        playerDTO.setAssistsPerGame(parseDouble(infos[22])); // Ajusta assistências
+        playerDTO.setReboundsPerGame(parseDouble(infos[21])); // Ajusta rebotes
+        playerDTO.setFieldGoalPercentage(parsePercentage(infos[9])); // Ajusta FG%
+        playerDTO.setThreePointPercentage(parsePercentage(infos[12])); // Ajusta 3P%
+
         return playerDTO;
+    }
+
+    private static int parseInteger(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0; // Valor padrão
+        }
+    }
+
+    private static double parseDouble(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return 0.0; // Valor padrão
+        }
+    }
+
+    private static float parsePercentage(String value) {
+        try {
+            float percentage = Float.parseFloat(value);
+            // Verifica se está no intervalo esperado
+            if (percentage < 0 || percentage > 1) {
+                return 0.0f; // Retorna 0 se o valor estiver fora do intervalo
+            }
+            return percentage * 100; // Converte para porcentagem (0 a 100)
+        } catch (NumberFormatException e) {
+            return 0.0f; // Valor padrão
+        }
     }
 }
