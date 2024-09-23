@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface PlayerService {
     List<PlayerDTO> getAllPlayers();
-    PlayerDTO getPlayerById(int id);
+    PlayerDTO getPlayerByName(String name);
     List<PlayerDTO> getPlayersByTeam(String teamName);
-    List<PlayerDTO> getPlayersByStatAscending(String stat);
-    List<PlayerDTO> getPlayersByStatDescending(String stat);
 }

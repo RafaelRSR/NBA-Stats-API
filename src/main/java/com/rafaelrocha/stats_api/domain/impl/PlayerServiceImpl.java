@@ -18,26 +18,21 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<PlayerDTO> getAllPlayers() {
-        return List.of();
+        return csvReaderUtil.readPlayersFromCSV();
     }
 
     @Override
-    public PlayerDTO getPlayerById(int id) {
-        return null;
+    public PlayerDTO getPlayerByName(String name) {
+        List<PlayerDTO> players = csvReaderUtil.readPlayersFromCSV();
+        return players.stream()
+                .filter(player -> player.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     @Override
     public List<PlayerDTO> getPlayersByTeam(String teamName) {
-        return List.of();
-    }
-
-    @Override
-    public List<PlayerDTO> getPlayersByStatAscending(String stat) {
-        return List.of();
-    }
-
-    @Override
-    public List<PlayerDTO> getPlayersByStatDescending(String stat) {
-        return List.of();
+        List<PlayerDTO> players = csvReaderUtil.readPlayersFromCSV();
+        return players.stream()
+                .filter(playerDTO -> playerDTO.getTeam().equalsIgnoreCase(teamName))
+                .toList();
     }
 }
