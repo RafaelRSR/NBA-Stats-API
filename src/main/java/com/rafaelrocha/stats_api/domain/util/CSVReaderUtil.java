@@ -39,43 +39,25 @@ public class CSVReaderUtil {
         playerDTO.setName(infos[0]);
         playerDTO.setPosition(infos[1]);
         playerDTO.setTeam(infos[3]);
-
-        playerDTO.setAge(parseInteger(infos[2])); // Ajusta a idade
-        playerDTO.setPointsPerGame(parseDouble(infos[28])); // Ajusta pontos por jogo
-        playerDTO.setAssistsPerGame(parseDouble(infos[22])); // Ajusta assistências
-        playerDTO.setReboundsPerGame(parseDouble(infos[21])); // Ajusta rebotes
+        playerDTO.setAge(Integer.parseInt(infos[2])); // Ajusta a idade
+        playerDTO.setPointsPerGame(Double.parseDouble(infos[28])); // Ajusta pontos por jogo
+        playerDTO.setAssistsPerGame(Double.parseDouble(infos[22])); // Ajusta assistências
+        playerDTO.setReboundsPerGame(Double.parseDouble(infos[21])); // Ajusta rebotes
         playerDTO.setFieldGoalPercentage(parsePercentage(infos[9])); // Ajusta FG%
         playerDTO.setThreePointPercentage(parsePercentage(infos[12])); // Ajusta 3P%
 
         return playerDTO;
     }
 
-    private static int parseInteger(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return 0; // Valor padrão
-        }
-    }
-
-    private static double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return 0.0; // Valor padrão
-        }
-    }
-
     private static float parsePercentage(String value) {
         try {
             float percentage = Float.parseFloat(value);
-            // Verifica se está no intervalo esperado
             if (percentage < 0 || percentage > 1) {
-                return 0.0f; // Retorna 0 se o valor estiver fora do intervalo
+                return 0.0f;
             }
-            return percentage * 100; // Converte para porcentagem (0 a 100)
+            return percentage * 100;
         } catch (NumberFormatException e) {
-            return 0.0f; // Valor padrão
+            return 0.0f;
         }
     }
 }
